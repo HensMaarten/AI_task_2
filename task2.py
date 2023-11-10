@@ -98,9 +98,6 @@ st.subheader("By Maarten Hens")
 st.header('Sample Data')
 st.write(studentsDFPartial.head(5))
 
-st.header('Info')
-st.write(studentsDFPartial.info())
-
 st.header('Summary Statistics')
 st.write(studentsDFPartial.describe())
 
@@ -110,11 +107,11 @@ st.write(studentsDFPartial.isnull().sum())
 
 
 # Visualize the distribution of a categorical variable
-plt.figure(figsize=(10, 6))
-sns.countplot(x='Target', data=studentsDFPartial)
+fig, ax = plt.figure(figsize=(10, 6))
+sns.countplot(x='Target', data=studentsDFPartial, ax=ax)
 plt.title('Results of students')
 plt.ylabel('Count')
-st.pyplot()
+st.pyplot(fig)
 
 
 st.header('Select the number of trees you want to use in the random forest')
@@ -122,27 +119,29 @@ number_of_trees = st.slider('Select a value:', 50, 400, 100, step=5)
 
 st.header('Select the number of neighbors you want to check in the KNN.')
 st.text('If you do not touch the slider the optimal amount of neighbors will be chosen')
-k_value = st.slider('Select a value:', 1, 31, None)
+k_value = st.slider('Select a value:', 0, 31, 0)
 
 if st.button('Run predictions'):
     st.header("Random forest")
     pred_rf = random_forest_classifier(number_of_trees)
     st.text("Accuracy score")
     st.text(get_accuracy(pred_rf))
-    st.text("Confustion Matrix")
+    st.text("Confusion Matrix")
     st.text(get_confusion_matrix(pred_rf))
     
     st.header("Gaussian Naive Bayes")
     pred_nb = gaussian_naive_bayes_classifier()
     st.text("Accuracy score")
     st.text(get_accuracy(pred_nb))
-    st.text("Confustion Matrix")
+    st.text("Confusion Matrix")
     st.text(get_confusion_matrix(pred_nb))
     
     st.header("KNN")
+    if(k_value == 0) :
+        k_value = None
     pred_knn = knn_classifier(k_value)
     st.text("Accuracy score")
     st.text(get_accuracy(pred_knn))
-    st.text("Confustion Matrix")
+    st.text("Confusion Matrix")
     st.text(get_confusion_matrix(pred_knn))
 
