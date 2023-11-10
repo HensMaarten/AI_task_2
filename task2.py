@@ -107,7 +107,7 @@ st.write(studentsDFPartial.isnull().sum())
 
 
 # Visualize the distribution of a categorical variable
-fig, ax = plt.figure(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 6))
 sns.countplot(x='Target', data=studentsDFPartial, ax=ax)
 plt.title('Results of students')
 plt.ylabel('Count')
